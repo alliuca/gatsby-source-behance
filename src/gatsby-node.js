@@ -32,18 +32,20 @@ exports.sourceNodes = async ({ boundActionCreators: { createNode } }, { username
 
   const { data: { projects } } = await axiosClient.get(`/users/${username}/projects?client_id=${apiKey}`)
   const { data: { user } } = await axiosClient.get(`/users/${username}?client_id=${apiKey}`)
+  // const { data: { project } } = await axiosClient.get(`/`)
 
   const jsonStringUser = JSON.stringify(user)
 
   projects.map(project => {
-    /* 
+    /*
     * Sadly this is not working as intended. Help on this part is much appreciated!
-    * 
+    *
     * const projectResponse = await axiosClient.get(`/projects/${project.id}?client_id=${apiKey}`)
     * const projectData = projectResponse.data.project
     */
 
     const jsonString = JSON.stringify(project)
+    console.log(project);
 
     const projectListNode = {
       name: project.name,
@@ -54,7 +56,7 @@ exports.sourceNodes = async ({ boundActionCreators: { createNode } }, { username
       conceived: project.conceived_on,
       url: project.url,
       areas: project.fields,
-      cover: project.covers.original,
+      covers: project.covers,
       stats: project.stats,
       children: [],
       id: project.id.toString(),
